@@ -86,7 +86,18 @@ exports.signup = async (req, res) => {
     const userResponse = newUser.toObject();
     delete userResponse.password;
 
-    res.status(201).json({ success: true, message: "Signup successful", data: userResponse });
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_HASH_KEY);
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+    });
+
+    res.json({
+      message: "Signup successful",
+      user,
+    });
 
   } catch (error) {
     console.error(error.message);
