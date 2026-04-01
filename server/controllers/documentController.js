@@ -55,7 +55,9 @@ exports.getDocumentById = async (req, res) => {
     const { id } = req.params;
     const userId = req.user._id;
 
-    const document = await Document.findById(id);
+    const document = await Document.findById(id)
+      .populate("owner", "firstName lastName email")
+      .populate("collaborators", "firstName lastName email");
     if (!document) {
       return res.status(404).json({
         success: false,
@@ -63,8 +65,10 @@ exports.getDocumentById = async (req, res) => {
       });
     }
 
-    const isOwner = document.owner.toString() === userId.toString();
-    const isCollaborator = document.collaborators.some((id) => id.toString() === userId.toString());
+    const isOwner = document.owner._id.toString() === userId.toString();
+    const isCollaborator = document.collaborators.some(
+      (collaborator) => collaborator._id.toString() === userId.toString()
+    );
     if (!isOwner && !isCollaborator) {
       return res.status(403).json({
         success: false,
