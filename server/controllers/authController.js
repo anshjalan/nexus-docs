@@ -86,7 +86,9 @@ exports.signup = async (req, res) => {
     const userResponse = newUser.toObject();
     delete userResponse.password;
 
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_HASH_KEY);
+    const token = jwt.sign({ _id: newUser._id }, process.env.JWT_HASH_KEY, {
+      expiresIn: "1d",
+    });
 
     res.cookie("token", token, {
       httpOnly: true,
@@ -95,8 +97,9 @@ exports.signup = async (req, res) => {
     });
 
     res.json({
+      success: true,
       message: "Signup successful",
-      user,
+      user: userResponse,
     });
 
   } catch (error) {
@@ -156,5 +159,85 @@ exports.logout = async (req, res) => {
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ success: false, message: "Something went wrong" });
+  }
+};
+
+exports.updateProfile = async (req, res) => {
+  try {
+    const { firstName, lastName } = req.body;
+    const userId = req.user._id;
+
+    if (!firstName) {
+      return res.status(400).json({
+        success: false,
+        message: "First name is required",
+      });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { firstName, lastName },
+      { new: true, runValidators: true }
+    ).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    res.json({
+      success: true,
+      message: "Profile updated",
+      data: user,
+    });
+
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ success: false, message: "Failed to update profile" });
+  }
+};
+
+exports.changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    const userId = req.user._id;
+
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Both current and new password are required",
+      });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        message: "Current password is incorrect",
+      });
+    }
+
+    if (!validator.isStrongPassword(newPassword)) {
+      return res.status(400).json({
+        success: false,
+        message: "New password is not strong enough. Must include uppercase, lowercase, number, and special character.",
+      });
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+
+    res.json({
+      success: true,
+      message: "Password updated successfully",
+    });
+
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ success: false, message: "Failed to change password" });
   }
 };
