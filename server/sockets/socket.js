@@ -11,22 +11,22 @@ const initializeSocket = (server) => {
   });
 
   io.on("connection", (socket) => {
-    console.log("User connected:", socket.id);
+    // console.log("User connected:", socket.id);
 
     socket.on("disconnect", () => {
-      console.log("User disconnected:", socket.id);
+      // console.log("User disconnected:", socket.id);
     });
 
     socket.on("join-document", (documentId) => {
       if (!documentId) return;
       socket.join(documentId);
-      console.log(`Socket ${socket.id} joined document ${documentId}`);
+      // console.log(`Socket ${socket.id} joined document ${documentId}`);
     });
 
     socket.on("leave-document", (documentId) => {
       if (!documentId) return;
       socket.leave(documentId);
-      console.log(`Socket ${socket.id} left document ${documentId}`);
+      // console.log(`Socket ${socket.id} left document ${documentId}`);
     });
 
     socket.on("send-changes", ({ documentId, delta }) => {
