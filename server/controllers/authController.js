@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const OTP = require("../models/OTP");
+const Document = require("../models/Document");
 const otpGenerator = require("otp-generator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -162,6 +163,31 @@ exports.logout = async (req, res) => {
   }
 };
 
+exports.getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select("-password");
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.json({
+      success: true,
+      data: user,
+    });
+
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch profile",
+    });
+  }
+};
+
 exports.updateProfile = async (req, res) => {
   try {
     const { firstName, lastName } = req.body;
@@ -239,5 +265,58 @@ exports.changePassword = async (req, res) => {
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ success: false, message: "Failed to change password" });
+  }
+};
+
+exports.deleteProfile = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    const ownedDocuments = await Document.find({ owner: userId }).select("_id");
+    const ownedDocumentIds = ownedDocuments.map((doc) => doc._id);
+
+    if (ownedDocumentIds.length > 0) {
+      await Document.deleteMany({ owner: userId });
+
+      await User.updateMany(
+        {
+          $or: [
+            { createdDocuments: { $in: ownedDocumentIds } },
+            { sharedDocuments: { $in: ownedDocumentIds } },
+          ],
+        },
+        {
+          $pull: {
+            createdDocuments: { $in: ownedDocumentIds },
+            sharedDocuments: { $in: ownedDocumentIds },
+          },
+        }
+      );
+    }
+
+    await Document.updateMany(
+      { collaborators: userId },
+      { $pull: { collaborators: userId } }
+    );
+
+    await User.findByIdAndDelete(userId);
+
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    });
+
+    res.json({
+      success: true,
+      message: "Profile deleted successfully",
+    });
+
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete profile",
+    });
   }
 };
