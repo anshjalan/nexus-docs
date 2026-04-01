@@ -24,6 +24,36 @@ const Signup = () => {
   const handleSendOTP = async (e) => {
     e.preventDefault();
     setError("");
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    // Validate password strength
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long.");
+      return;
+    }
+    if (!/[A-Z]/.test(password)) {
+      setError("Password must include at least one uppercase letter.");
+      return;
+    }
+    if (!/[a-z]/.test(password)) {
+      setError("Password must include at least one lowercase letter.");
+      return;
+    }
+    if (!/[0-9]/.test(password)) {
+      setError("Password must include at least one number.");
+      return;
+    }
+    if (!/[^A-Za-z0-9]/.test(password)) {
+      setError("Password must include at least one special character.");
+      return;
+    }
+
     setLoading(true);
 
     try {
