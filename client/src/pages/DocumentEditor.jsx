@@ -51,11 +51,11 @@ const DocumentEditor = () => {
 
       {!editorReady && <EditorLoadingState />}
 
-      <main className={`flex-1 px-4 pb-10 ${!editorReady ? "hidden" : "animate-fade-in"}`}>
-        <div className={`mx-auto transition-all duration-300 ${focusMode ? "max-w-5xl pt-6" : "max-w-6xl pt-8"}`}>
+      <main className={`flex-1 px-2 sm:px-4 pb-10 ${!editorReady ? "hidden" : "animate-fade-in"}`}>
+        <div className={`mx-auto transition-all duration-300 ${focusMode ? "max-w-5xl pt-6" : "max-w-6xl pt-4 sm:pt-8"}`}>
           <EditorInfoBar characterCount={characterCount} />
 
-          <div className="document-editor-shell rounded-[30px] border border-surface-200/70 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.08)] overflow-hidden">
+          <div className="document-editor-shell rounded-2xl sm:rounded-[30px] border border-surface-200/70 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.08)] overflow-hidden">
             <div ref={wrapperRef} className="document-editor-wrapper" />
           </div>
         </div>

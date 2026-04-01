@@ -244,18 +244,54 @@
 
 @media (max-width: 768px) {
   .ql-toolbar.ql-snow {
-    padding: 12px 10px !important;
+    padding: 10px 8px !important;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+  }
+
+  .ql-toolbar.ql-snow .ql-formats {
+    margin-right: 4px !important;
   }
 
   .ql-editor {
-    padding: 24px 18px !important;
-    min-height: calc(100vh - 260px);
+    padding: 20px 16px !important;
+    min-height: calc(100vh - 240px);
     font-size: 16px;
+    line-height: 1.75;
   }
 
   .ql-editor.ql-blank::before {
-    left: 18px !important;
-    right: 18px !important;
+    left: 16px !important;
+    right: 16px !important;
+  }
+
+  .ql-editor h1 {
+    font-size: 1.6rem;
+  }
+
+  .ql-editor h2 {
+    font-size: 1.35rem;
+  }
+
+  .ql-editor h3 {
+    font-size: 1.15rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .ql-toolbar.ql-snow {
+    padding: 8px 6px !important;
+  }
+
+  .ql-editor {
+    padding: 16px 12px !important;
+    min-height: calc(100vh - 220px);
+  }
+
+  .ql-editor.ql-blank::before {
+    left: 12px !important;
+    right: 12px !important;
   }
 }
 

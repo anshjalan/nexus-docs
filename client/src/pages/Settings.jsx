@@ -85,7 +85,7 @@ const Settings = () => {
     <div className="min-h-screen bg-surface-50">
       <Navbar />
 
-      <div className="max-w-2xl mx-auto px-6 py-8 animate-fade-in">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8 animate-fade-in">
 
         {/* Header */}
         <div className="flex items-center gap-3 mb-8">

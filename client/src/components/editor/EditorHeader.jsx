@@ -32,7 +32,7 @@ const EditorHeader = ({
 
   return (
     <header className="sticky top-0 z-40 border-b border-surface-200/80 bg-white/90 backdrop-blur-xl">
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 px-4 py-3">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-4 px-3 sm:px-4 py-2 sm:py-3">
         <div className="flex items-center gap-3 min-w-0 flex-1">
           <button
             id="back-to-dashboard"
@@ -52,7 +52,7 @@ const EditorHeader = ({
               type="text"
               value={title}
               onChange={onTitleChange}
-              className="text-xl font-semibold text-surface-800 bg-transparent border-none outline-none w-full
+              className="text-base sm:text-xl font-semibold text-surface-800 bg-transparent border-none outline-none w-full
                 focus:bg-surface-50 rounded-lg px-2 py-1 -ml-2 transition-colors duration-200
                 placeholder:text-surface-400"
               placeholder="Untitled Document"

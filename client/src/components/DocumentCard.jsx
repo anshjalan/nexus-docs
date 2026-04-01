@@ -46,7 +46,7 @@ const DocumentCard = ({ doc, onOpen, onDelete }) => {
           e.stopPropagation(); //Stop from opening document due to preant div's onClick = {onOpen}
           onDelete(doc._id);
         }}
-        className="opacity-0 group-hover:opacity-100 p-2 rounded-lg text-surface-400
+        className="opacity-100 sm:opacity-0 sm:group-hover:opacity-100 p-2 rounded-lg text-surface-400
           hover:text-danger-600 hover:bg-danger-500/10 transition-all duration-200"
         title="Delete document"
       >

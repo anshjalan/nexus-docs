@@ -46,7 +46,7 @@ const Navbar = ({ searchValue = "", onSearchChange, showSearch = false }) => {
 
   return (
     <nav className="sticky top-0 z-50 glass border-b border-surface-200/60">
-      <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
 
         {/* Brand */}
         <button
@@ -64,12 +64,10 @@ const Navbar = ({ searchValue = "", onSearchChange, showSearch = false }) => {
         </button>
 
         {/* Search */}
-        {showSearch ? (
-          <div className="hidden md:flex items-center w-full max-w-md mx-8">
+        {showSearch && (
+          <div className="hidden sm:flex items-center w-full max-w-md mx-4 md:mx-8">
             <SearchBox value={searchValue} onChange={onSearchChange} />
           </div>
-        ) : (
-          <div className="hidden md:block w-full max-w-md mx-8" />
         )}
 
         {/* User Menu */}

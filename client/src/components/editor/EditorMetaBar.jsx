@@ -4,8 +4,8 @@ const EditorMetaBar = ({ wordCount, readingTime, lastSavedLabel, owner, collabor
   const people = [owner, ...(collaborators || [])].filter(Boolean);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 pb-4">
-      <div className="rounded-2xl border border-surface-200/80 bg-white shadow-sm px-4 py-3 flex flex-wrap items-center gap-3 sm:gap-4">
+    <div className="max-w-7xl mx-auto px-3 sm:px-4 pb-4">
+      <div className="rounded-2xl border border-surface-200/80 bg-white shadow-sm px-3 sm:px-4 py-2 sm:py-3 flex flex-wrap items-center gap-2 sm:gap-4">
         <div className="flex items-center gap-2 text-sm text-surface-600">
           <ScanText size={16} className="text-primary-500" />
           <span className="font-medium text-surface-800">{wordCount}</span>
@@ -14,14 +14,14 @@ const EditorMetaBar = ({ wordCount, readingTime, lastSavedLabel, owner, collabor
 
         <div className="h-4 w-px bg-surface-200 hidden sm:block" />
 
-        <div className="flex items-center gap-2 text-sm text-surface-600">
+        <div className="hidden sm:flex items-center gap-2 text-sm text-surface-600">
           <Clock3 size={16} className="text-primary-500" />
           <span>{readingTime} min read</span>
         </div>
 
         <div className="h-4 w-px bg-surface-200 hidden sm:block" />
 
-        <div className="flex items-center gap-2 text-sm text-surface-600">
+        <div className="hidden sm:flex items-center gap-2 text-sm text-surface-600">
           <CheckCircle2 size={16} className="text-primary-500" />
           <span>Last saved {lastSavedLabel}</span>
         </div>

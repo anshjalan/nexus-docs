@@ -33,10 +33,10 @@ const Login = () => {
   return (
     <div className="min-h-screen gradient-mesh flex items-center justify-center p-4 relative overflow-hidden">
 
-      <div className="absolute -top-30 -left-20 w-80 h-80 bg-primary-400/20 rounded-full blur-3xl animate-pulse-slow" />
-      <div className="absolute -bottom-25 -right-15 w-96 h-96 bg-accent-400/15 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: "2s" }} />
+      <div className="absolute -top-30 -left-20 w-80 h-80 bg-primary-400/20 rounded-full blur-3xl animate-pulse-slow pointer-events-none" />
+      <div className="absolute -bottom-25 -right-15 w-96 h-96 bg-accent-400/15 rounded-full blur-3xl animate-pulse-slow pointer-events-none" style={{ animationDelay: "2s" }} />
 
-      <div className="w-full max-w-md animate-scale-in">
+      <div className="relative z-10 w-full max-w-md animate-scale-in">
 
         {/* Logo */}
         <div className="text-center mb-8">
@@ -50,7 +50,7 @@ const Login = () => {
         </div>
 
         {/* Card */}
-        <div className="glass rounded-2xl shadow-xl shadow-surface-900/5 p-8">
+        <div className="glass rounded-2xl shadow-xl shadow-surface-900/5 p-5 sm:p-8">
 
           {error && (
             <div className="mb-5 px-4 py-3 bg-danger-500/10 border border-danger-500/20 rounded-xl text-danger-600 text-sm animate-slide-down">

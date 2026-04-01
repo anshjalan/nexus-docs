@@ -112,13 +112,13 @@ const ShareModal = ({ documentId, isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40 backdrop-blur-sm animate-fade-in p-0 sm:p-4">
       <div
         ref={modalRef}
-        className="w-full max-w-lg bg-white rounded-2xl shadow-2xl shadow-surface-900/20 animate-scale-in overflow-hidden"
+        className="w-full sm:max-w-lg bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl shadow-surface-900/20 animate-scale-in overflow-hidden max-h-[90vh] overflow-y-auto"
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-surface-100">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-surface-100">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 bg-primary-100 rounded-xl flex items-center justify-center">
               <Users size={18} className="text-primary-600" />
@@ -137,8 +137,8 @@ const ShareModal = ({ documentId, isOpen, onClose }) => {
         </div>
 
         {/* Add Collaborator Form */}
-        <div className="px-6 py-4">
-          <form onSubmit={handleAddCollaborator} className="flex gap-2">
+        <div className="px-4 sm:px-6 py-4">
+          <form onSubmit={handleAddCollaborator} className="flex flex-col sm:flex-row gap-2">
             <div className="relative flex-1">
               <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-surface-400" />
               {/* <span className="text-red-400">*</span> */}
@@ -184,7 +184,7 @@ const ShareModal = ({ documentId, isOpen, onClose }) => {
         </div>
 
         {/* People List */}
-        <div className="px-6 pb-5">
+        <div className="px-4 sm:px-6 pb-5">
           <p className="text-xs font-semibold text-surface-500 uppercase tracking-wider mb-3">
             People with access
           </p>
@@ -238,7 +238,7 @@ const ShareModal = ({ documentId, isOpen, onClose }) => {
                       <span className="text-xs text-surface-400">Editor</span>
                       <button
                         onClick={() => handleRemoveCollaborator(collab.email)}
-                        className="opacity-0 group-hover:opacity-100 p-1.5 rounded-lg text-surface-400 hover:text-danger-600 hover:bg-danger-500/10 transition-all"
+                        className="opacity-100 sm:opacity-0 sm:group-hover:opacity-100 p-1.5 rounded-lg text-surface-400 hover:text-danger-600 hover:bg-danger-500/10 transition-all"
                         title="Remove collaborator"
                       >
                         <Trash2 size={14} />
