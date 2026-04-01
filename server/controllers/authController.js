@@ -92,6 +92,7 @@ exports.signup = async (req, res) => {
     });
 
     res.cookie("token", token, {
+      expires: new Date(Date.now() + 24 * 3600000),
       httpOnly: true,
       secure: true,
       sameSite: "None",
