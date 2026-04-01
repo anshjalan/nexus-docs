@@ -10,6 +10,7 @@ import DocumentCard from "../components/DocumentCard";
 const Dashboard = () => {
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [creating, setCreating] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
@@ -29,11 +30,29 @@ const Dashboard = () => {
   }, []);
 
   const handleCreate = async () => {
+    if (creating) return;
+
     try {
+      setCreating(true);
       const res = await api.post("/api/documents/create");
-      navigate(`/document/${res.data.data._id}`);
+      const documentId = res.data?.data?._id;
+
+      if (!documentId) {
+        throw new Error("Document id missing from create response");
+      }
+
+      navigate(`/document/${documentId}`);
+
+      window.setTimeout(() => {
+        if (window.location.pathname !== `/document/${documentId}`) {
+          window.location.assign(`/document/${documentId}`);
+        }
+      }, 150);
     } catch (error) {
       console.error(error.message);
+      toast.error("Couldn't open the new document. Please try again.");
+    } finally {
+      setCreating(false);
     }
   };
 
@@ -88,17 +107,19 @@ const Dashboard = () => {
             <button
               id="create-document-button"
               onClick={handleCreate}
+              disabled={creating}
               className="group w-36 h-48 bg-white border-2 border-dashed border-surface-200 rounded-2xl
                 flex flex-col items-center justify-center cursor-pointer
                 hover:border-primary-400 hover:bg-primary-50/50 hover:shadow-lg hover:shadow-primary-500/10
-                hover:-translate-y-1 transition-all duration-300"
+                hover:-translate-y-1 transition-all duration-300 disabled:cursor-not-allowed
+                disabled:opacity-70 disabled:hover:translate-y-0"
             >
               <div className="w-12 h-12 bg-primary-100 rounded-2xl flex items-center justify-center mb-3
                 group-hover:bg-primary-200 group-hover:scale-110 transition-all duration-300">
                 <Plus size={24} className="text-primary-600" />
               </div>
               <span className="text-sm font-medium text-surface-600 group-hover:text-primary-700 transition-colors">
-                Blank
+                {creating ? "Opening..." : "Blank"}
               </span>
             </button>
 
